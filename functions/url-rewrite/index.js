@@ -63,9 +63,9 @@ function handler(event) {
                     break;
                 case 'position':
                     if (request.querystring[operation]['value']) {
-                        var fit = request.querystring[operation]['value'];
-                        if (!isNaN(fit)) {
-                            normalizedOperations['position'] = fit.toString();
+                        var position = request.querystring[operation]['value'];
+                        if (!isNaN(position)) {
+                            normalizedOperations['position'] = position.toString();
                         }
                     }
                     break;
