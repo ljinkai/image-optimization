@@ -48,6 +48,10 @@ export const handler = async (event) => {
         var resizingOptions = {};
         if (operationsJSON['width']) resizingOptions.width = parseInt(operationsJSON['width']);
         if (operationsJSON['height']) resizingOptions.height = parseInt(operationsJSON['height']);
+        // 添加新参数 begin
+        if (operationsJSON['fit']) resizingOptions.fit = operationsJSON['fit'];
+        if (operationsJSON['position']) resizingOptions.position = operationsJSON['position'];
+        // 添加新参数 end
         if (resizingOptions) transformedImage = transformedImage.resize(resizingOptions);
         // check if rotation is needed
         if (imageMetadata.orientation) transformedImage = transformedImage.rotate();

@@ -53,6 +53,22 @@ function handler(event) {
                         }
                     }
                     break;
+                case 'fit':
+                    if (request.querystring[operation]['value']) {
+                        var fit = request.querystring[operation]['value'];
+                        if (!isNaN(fit)) {
+                            normalizedOperations['fit'] = fit.toString();
+                        }
+                    }
+                    break;
+                case 'position':
+                    if (request.querystring[operation]['value']) {
+                        var fit = request.querystring[operation]['value'];
+                        if (!isNaN(fit)) {
+                            normalizedOperations['position'] = fit.toString();
+                        }
+                    }
+                    break;
                 default: break;
             }
         });
@@ -64,6 +80,8 @@ function handler(event) {
             if (normalizedOperations.quality) normalizedOperationsArray.push('quality='+normalizedOperations.quality);
             if (normalizedOperations.width) normalizedOperationsArray.push('width='+normalizedOperations.width);
             if (normalizedOperations.height) normalizedOperationsArray.push('height='+normalizedOperations.height);
+            if (normalizedOperations.fit) normalizedOperationsArray.push('fit='+normalizedOperations.fit);
+            if (normalizedOperations.position) normalizedOperationsArray.push('position='+normalizedOperations.position);
             request.uri = originalImagePath + '/' + normalizedOperationsArray.join(',');     
         } else {
             // If no valid operation is found, flag the request with /original path suffix
