@@ -17,6 +17,7 @@ export const handler = async (event) => {
     var imagePathArray = event.requestContext.http.path.split('/');
     // get the requested image operations
     var operationsPrefix = imagePathArray.pop();
+    console.log(`----- info ---1--- operationsPrefix: ${operationsPrefix}`);
     // get the original image path images/rio/1.jpg
     imagePathArray.shift();
     var originalImagePath = imagePathArray.join('/');
@@ -26,6 +27,7 @@ export const handler = async (event) => {
     let originalImageBody;
     let contentType;
     try {
+        console.log(`----- info --2---- originalImagePath: ${originalImagePath}`);
         const getOriginalImageCommand = new GetObjectCommand({ Bucket: S3_ORIGINAL_IMAGE_BUCKET, Key: originalImagePath });
         const getOriginalImageCommandOutput = await s3Client.send(getOriginalImageCommand);
         console.log(`Got response from S3 for ${originalImagePath}`);
@@ -51,8 +53,9 @@ export const handler = async (event) => {
         // 添加新参数 begin
         if (operationsJSON['fit']) resizingOptions.fit = operationsJSON['fit'];
         if (operationsJSON['position']) resizingOptions.position = operationsJSON['position'];
+        console.log(`----- info ---3--- fit & position: ${resizingOptions.fit} ${resizingOptions.position}`);
         // 添加新参数 end
-        if (resizingOptions) transformedImage = transformedImage.resize(resizingOptions);
+        if (resizingOptions) transformedImage = transformedImage.resize(resizingOptions.width, resizingOptions.height, operationsJSON);
         // check if rotation is needed
         if (imageMetadata.orientation) transformedImage = transformedImage.rotate();
         // check if formatting is requested
@@ -87,6 +90,7 @@ export const handler = async (event) => {
     // upload transformed image back to S3 if required in the architecture
     if (S3_TRANSFORMED_IMAGE_BUCKET) {
         startTime = performance.now();
+        console.log(`----- info ---4--- Key: ${originalImagePath + '/' + operationsPrefix} ${TRANSFORMED_IMAGE_CACHE_TTL}`);
         try {
             const putImageCommand = new PutObjectCommand({
                 Body: transformedImage,

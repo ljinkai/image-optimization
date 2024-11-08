@@ -83,6 +83,7 @@ function handler(event) {
             if (normalizedOperations.fit) normalizedOperationsArray.push('fit='+normalizedOperations.fit);
             if (normalizedOperations.position) normalizedOperationsArray.push('position='+normalizedOperations.position);
             request.uri = originalImagePath + '/' + normalizedOperationsArray.join(',');     
+            console.log(`----- info ------ request.uri: ${request.uri}`);
         } else {
             // If no valid operation is found, flag the request with /original path suffix
             request.uri = originalImagePath + '/original';     
