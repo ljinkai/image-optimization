@@ -56,17 +56,13 @@ function handler(event) {
                 case 'fit':
                     if (request.querystring[operation]['value']) {
                         var fit = request.querystring[operation]['value'];
-                        if (!isNaN(fit)) {
-                            normalizedOperations['fit'] = fit.toString();
-                        }
+                        normalizedOperations['fit'] = fit.toString();
                     }
                     break;
                 case 'position':
                     if (request.querystring[operation]['value']) {
                         var position = request.querystring[operation]['value'];
-                        if (!isNaN(position)) {
-                            normalizedOperations['position'] = position.toString();
-                        }
+                        normalizedOperations['position'] = position.toString();
                     }
                     break;
                 default: break;
@@ -83,7 +79,6 @@ function handler(event) {
             if (normalizedOperations.fit) normalizedOperationsArray.push('fit='+normalizedOperations.fit);
             if (normalizedOperations.position) normalizedOperationsArray.push('position='+normalizedOperations.position);
             request.uri = originalImagePath + '/' + normalizedOperationsArray.join(',');     
-            console.log(`----- info ------ request.uri: ${request.uri}`);
         } else {
             // If no valid operation is found, flag the request with /original path suffix
             request.uri = originalImagePath + '/original';     
